@@ -40,12 +40,25 @@ def bbb(input_bbb: pd.DataFrame) -> np.ndarray:
     bbb_data = scaler.fit_transform(bbb_data)  
     # Transform user data to numpy to avoid conflict with names
     bbb_user_input = scaler.transform(input_bbb.to_numpy())
+    #reshape the input data
+    bbb_user_input = bbb_user_input.reshape((bbb_user_input.shape[0], 1, bbb_user_input.shape[1]))
     # Load model
     loaded_model = load_model(os.path.join(path, "DeePredmodel.h5")) 
+    print(loaded_model.summary())
     print("Model loaded")
     # Get predictions for user input
     prediction = loaded_model.predict(bbb_user_input).round()
-    prediction = prediction[:,0].astype (int)
+    
+    # Assuming the model outputs probabilities (e.g., (batch_size, 2) for binary classification)
+    # Convert to class labels
+    # If the model outputs a probability distribution over classes, use np.argmax() to get the class with the highest probability
+    # If the model outputs class labels directly, you might need to adjust this step
+
+    predicted_classes = np.argmax(prediction, axis=1)
+    
+    # Convert predictions to integer type if needed
+    predicted_classes = predicted_classes.astype(int)
+    # prediction = prediction[:,0].astype(int)
     
     return prediction
     
@@ -79,6 +92,8 @@ def run_prediction(folder: str) -> None:
     names = input_bbb['Name'].copy()
     # Remove names
     input_bbb = input_bbb.drop(['Name'], axis=1)
+    #reshape input data
+    # input_bbb = np.expand_dims(input_bbb, axis=1)
     # Run predictions
     pred = bbb(input_bbb)
     # Create Dataframe with results

@@ -92,6 +92,7 @@ def run_prediction(folder: str) -> None:
     names = input_bbb['Name'].copy()
     # Remove names
     input_bbb = input_bbb.drop(['Name'], axis=1)
+    print(input_bbb)
     #reshape input data
     # input_bbb = np.expand_dims(input_bbb, axis=1)
     # Run predictions

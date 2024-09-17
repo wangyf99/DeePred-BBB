@@ -92,14 +92,21 @@ def run_prediction(folder: str) -> None:
     names = input_bbb['Name'].copy()
     # Remove names
     input_bbb = input_bbb.drop(['Name'], axis=1)
-    print(input_bbb)
+    print("input_bbb", input_bbb)
     #reshape input data
     # input_bbb = np.expand_dims(input_bbb, axis=1)
     # Run predictions
     pred = bbb(input_bbb)
+    print("DataFrame 'pred' content:\n", pred)
+    print("DataFrame 'pred' shape:\n", pred.shape)
     # Create Dataframe with results
     res = pd.DataFrame(names)
+    print("DataFrame 'res' content:\n", res.head())
+    print("DataFrame 'res' shape:", res.shape)
     res['Predicted_class'] = pred
+    
+    
+
     # Save results to csv
     res.to_csv('DeePred-BBB_predictions.csv', index=False)
 

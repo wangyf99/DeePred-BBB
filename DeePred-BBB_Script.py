@@ -92,18 +92,28 @@ def run_prediction(folder: str) -> None:
     names = input_bbb['Name'].copy()
     # Remove names
     input_bbb = input_bbb.drop(['Name'], axis=1)
-    print("input_bbb", input_bbb)
+    # print("input_bbb", input_bbb)
     #reshape input data
     # input_bbb = np.expand_dims(input_bbb, axis=1)
     # Run predictions
     pred = bbb(input_bbb)
-    print("DataFrame 'pred' content:\n", pred)
+    print("DataFrame 'pred' 1 content:\n", pred)
+    # pred = pred.reshape(-1)
+    # print("DataFrame 'pred' 2 content:\n", pred)
     print("DataFrame 'pred' shape:\n", pred.shape)
     # Create Dataframe with results
     res = pd.DataFrame(names)
     print("DataFrame 'res' content:\n", res.head())
     print("DataFrame 'res' shape:", res.shape)
+    pred = pred[:, :, 0]
     res['Predicted_class'] = pred
+    # print("DataFrame 'updated_res' dtypes:\n", res.dtypes)  # Check the data types of the columns
+    # print("DataFrame 'updated_res' head:\n", res.head())  # View the first few rows to inspect the data
+    # print(res['Predicted_class'].apply(type).unique())
+    # print(res['Predicted_class'])
+
+    # print("DataFrame 'updated_res' content:\n", res.head())
+    # print("DataFrame 'updated_res' shape:", res.shape)
     
     
 
